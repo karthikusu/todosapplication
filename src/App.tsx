@@ -1,26 +1,53 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import Navigation from './components/Navigation/Navigation';
+import { Routes, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import LoginPage from './pages/login/page';
+import WelcomeComponent from './components/welcome/welcome';
+import { ToastContainer } from 'react-toastify';
+import TodosListPage from './pages/todos/page';
+import TodoAddEditPage from './pages/todos/[id]/page';
+import WelcomePage from './pages/welcome/page';
+import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Navigation />
+    <Container className="my-5">
+      <Routes>
+ <Route path="/" element={<LoginPage />} />
+ <Route path="/login" element={<LoginPage />} />
+ <Route
+ path="/welcome/:username"
+ element={
+ <AuthenticatedRoute>
+ <WelcomePage />
+ </AuthenticatedRoute>
+ }
+ />
+ <Route
+ path="/todos"
+ element={
+ <AuthenticatedRoute>
+ <TodosListPage />
+ </AuthenticatedRoute>
+ }
+ />
+ <Route
+ path="/todos/:id"
+ element={
+ <AuthenticatedRoute>
+ <TodoAddEditPage />
+ </AuthenticatedRoute>
+ }
+ />
+ </Routes>
+    </Container>
+    <ToastContainer />
+    </>
   );
 }
-
 export default App;
